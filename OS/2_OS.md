@@ -28,7 +28,7 @@ OS는 file, 즉 HDD에 저장되어있는 instruction들의 집합체인 program
 
 컴퓨터의 구조를 보자. HDD에 OS와 IE, word 등의 다양한 프로그램 파일들이 저장되어있고, RAM(mainMEM)에는 프로세서로 가져갈 프로그램들(instruction들의 집합), ROM에는 부팅하는데에 필요한 명령들이 저장되어있다.
 
-img1
+![컴퓨터구조1](./img/2_1.jpeg)
 
 부팅하는 순간을 예로 들어보자.
 
@@ -46,7 +46,7 @@ img1
 
 OS = 커널과 명령해석기의 역할을 한다. 현재까지의 컴퓨터 구조를 표현한 것과는 조금 다르게 그림을 그려보면, 이렇게 표현이 가능하다.
 
-img2
+![컴퓨터구조2](./img/2_2.jpeg)
 
 그래서 OS는 kernal(실제로 cpu, mem등의 hw를 관리하는 부분) + shell(User의 명령 해석(interpreter) -> 실행(execution)해 보여주기) 의 역할을 한다고 볼 수 있다.
 
