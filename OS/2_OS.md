@@ -59,6 +59,13 @@ OS = 커널과 명령해석기의 역할을 한다. 현재까지의 컴퓨터 �
 
 # 운영체제의 역사
 
+## 그래서 정리해보면
+
+1. No OS : operator직업이 존재 -> card reader -> compile > ...
+2. Batch processing system(일괄처리) : (RAM) resident monitor
+   (HDD 출시!!)
+3.
+
 ---
 
 # 고등 운영체제, 인터럽트 기반 운영체제
