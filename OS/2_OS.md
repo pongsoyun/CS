@@ -236,3 +236,41 @@ add, lw ... 들이 있지만 int(인터럽트! OS 중지시켜라)하는 명령�
 ISR가 종료되면 원래의 대기상태 또는 User Program으로 복귀한다.
 
 이처럼 우리가 사용하는 OS는 모두 인터럽트 기반 운영체제이다. User Program과 OS 내의 코드(ISR)가 반복 번갈아가며 memory에서 실행된다.
+
+## 듀얼모드
+
+한 컴퓨터를 여러사람이 동시에 사용하는 환경이거나 (ex. 서버컴퓨터) 한 사람이 여러개의 프로그램을 동시에 사용하는 환경일 때 (ex. 스마트폰, PC) 일반 사용자가 STOP명령등을 실행시켜 cpu를 중단시키는 일이 발생하면 안된다. 그래서 사용자 프로그램은 치명적인 명령을 사용할 수 없게 모드를 나눈 것이다.
+
+1. User 모드 (사용자 모드)
+2. Supervisor 모드(관리자 모드, monitor, priviliged, system 모드) = OS
+
+privileged instruction 중에는 STOP, HALT, RESET, SET_TIMER, SET_HW .. 등이 대표적이다.
+
+dual mode 의 시나리오를 보자.
+
+-   register에 모드를 나타내는 (이중모드를 나타내는) flag(상태 bit) 하나를 더 추가한다. ex. monitor bit 라고 했을 경우 1->systemMode, 0->userMode 이런 식으로 듀얼모드를 나타낸다.
+-   power ON
+-   BOOT : OS가 HDD -> RAM으로 적재 && `monitorbit==1(systemMode)`
+-   OS BOOOTING 끝, 사용자 프로그램 실행시키려고 더블클릭 -> `monitorbit==0(userMode)`
+-   프로그램이 RAM으로 적재, 이후 HW/SW 인터럽트 발생 시 처리 -> `monitorbit==1(systemMode)`
+-   OS 서비스가 끝남 -> `monitorbit==0(userMode)`
+
+일반 유저프로그램이 하드디스크에 접근할 수 있다는 뜻은 서버컴퓨터에 여러 사용자 / 여러 프로그램 파일이 있는데, 상관이 없는 프로그램/사용자가 하드디스크에 접근할 수 있으므로 보안에 취약하다는 문제가 있다.
+
+**그래서 일반 유저 프로그램이 데이터의 업데이트 및 저장을 할 때는, SW인터럽트를 사용하여 -> cpu는 현재 하는 일을 중단하고 OS 내에 있는 ISR(Interrupt Service Routine)로 이동 -> 현재 업데이트 할 데이터를 하드디스크에 접근하여 저장**
+
+대부분의 cpu는 monitorBit가 있다! 이 2중모드는 보호와 관련이 깊다.
+
+## 하드웨어 보호
+
+-   **I/O device protection**
+    -   타 사용자의 정보 수정/삭제하거나 HDD 접근하려함ㅜㅜ
+    -   🧚🏻‍♀️ 입출력을 하려면 OS에게 요청 `systemMode 전환`-> OS가 IN/OUT 하며 업무를 마친 후 다시 `userMode 복귀` -> 올바른 요청이 아닐 경우 OS가 거부
+    -   `Privileged instruction violation` : userMode에서는 priviliged명령들을 사용할 수 없게 -> 제한
+-   **Memory protection**
+    -   OS해킹할수도있음 ㅠㅠ 핵 치명적!
+    -   🧚🏻‍♀️`MMU(Memory Management Unit)`를 두어 다른 메모리영역 침범을 감시하도록 함. MEM번지를 다들 할당해주어, 문지기역할을 하는 MMU가 해당 번지만을 읽을 수 있도록 한다.
+    -   `Segment violation` : 다른 사용자/OS영역의 메모리에 접근을 시도했을 경우 -> 제한
+-   **CPU protection**
+    -   한 사용자가 실수, 고의로 CPU 시간을 독점할 경우ㅜ ex. while(1)
+    -   🧚🏻‍♀️ `timer`을 두어 일정시간 경과 시 timer interrupt(인터럽트 -> OS -> 다른 프로그램으로 강제 전환을 막음)
