@@ -269,7 +269,7 @@ dual mode 의 시나리오를 보자.
     -   `Privileged instruction violation` : userMode에서는 priviliged명령들을 사용할 수 없게 -> 제한
 -   **Memory protection**
     -   OS해킹할수도있음 ㅠㅠ 핵 치명적!
-    -   🧚🏻‍♀️`MMU(Memory Management Unit)`를 두어 다른 메모리영역 침범을 감시하도록 함. MEM번지를 다들 할당해주어, 문지기역할을 하는 MMU가 해당 번지만을 읽을 수 있도록 한다.
+    -   🧚🏻‍♀️`MMU(Memory Management Unit)`를 두어 다른 메모리영역 침범을 감시하도록 함. MEM번지를 다들 할당해주어, 문지기역할을 하는 MMU가 해당 번지만을 읽을 수 있도록 한다. (이 MMU안에있는 baseLimit 할당은 OS가 함)
     -   `Segment violation` : 다른 사용자/OS영역의 메모리에 접근을 시도했을 경우 -> 제한
 -   **CPU protection**
     -   한 사용자가 실수, 고의로 CPU 시간을 독점할 경우ㅜ ex. while(1)
