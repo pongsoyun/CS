@@ -179,4 +179,60 @@ supercomputer > server > workstation > PC > handheld(smartphone, notebook) > emb
 
 # 고등 운영체제, 인터럽트 기반 운영체제
 
-s
+## 고등 운영체제
+
+하나의 작업을 처리하기 위해서, cpu를 여러개를 두어 처리를 한다. 하지만 그 cpu/mem의 구조에 따라 시스템/OS 가 다르다.
+
+1.  다중 프로세서 시스템 (Multiprocessor) : cpu N개, mem 1개
+
+    -   병렬 시스템(parallel) : cpu N개가 병렬
+    -   이때 MEM 1개를 cpu N개가 공유하므로 tightly-coupled system이라고도 함
+    -   이때의 OS를 multiprocessor OS 라고 함
+    -   장점
+
+        -   performance(cpu계산하는데 여러개 있으면 한번에 더 많은 계산가능)
+        -   cost : 컴퓨터를 여러대 두는거보다 하나에 프로세서(cpu) 여러개 두는게 더 경제적 ~~고성능하나보다 저성능여러개가더경제적~~
+        -   reliability : cpu 하나가 고장나더라도 다른 cpu가 동작할수있어서 신뢰도 ㄱㅊ
+
+2.  분산 시스템 (Distributed)
+
+    -   multi-computer : LAN으로 연결된 (cpu - MEM)\*N개 의 컴퓨터
+    -   이때의 각각의 (cpu - MEM)\*N 개가 LAN으로 연결되어있으므로 loosely-coupled system이라고도 함
+    -   각각의 (cpu - MEM)은 하나의 일을 나누어서 처리하는 것이므로, 서로간 통신이 가능해야함. 이떄의 OS를 distributed OS 라고 함
+
+3.  실시간 시스템 (Real-time)  
+    이는 위 2가지와 목적이 살짝 다르다
+    리얼타임 : 어떤 프로그램이 정해진 시간 내에 작업이 끝나야 하는 시스템
+    -   시간제약이 주어진 시스템
+    -   FA(공장 자동화), 군사, 항공, 우주 등에 사용됨
+    -   real-time OS(RTOS) 라고 함
+
+## 인터럽트 기반 시스템
+
+현대의 OS는 인터럽트 기반 시스템이다. 그 순서대로 한번 보자. ~~[20m](http://www.kocw.net/home/search/kemView.do?kemId=978503)~~
+
+1. 부팅
+2. 부팅이 끝나면, OS는 MEM에 resident 하며 event를 기다리면서 대기중...
+3. event 발생 : ex. 마우스-아이콘 더블클릭
+4. H/W 인터럽트(전기신호) 실행
+5. 인터럽트 결과 OS내에서 ISR(Interrupt Service Routine)실행 ex. 마우스 인터럽트 서비스 루틴(ex. hwp를 눌렀을경우 OS 내 HDD읽어오는 코드가 hwp HDD에서 찾아옴)
+6. ISR(Interrupt Service Routine)종료 후 다시 대기 (하면서 RAM 으로 프로그램 올림)
+
+H/W인터럽트 외에 S/W 인터럽트도 존재한다.
+
+add, lw ... 들이 있지만 int(인터럽트! OS 중지시켜라)하는 명령어도 존재했음. 이 int 명령어같이 외부적으로 멈추게 하는 전기신호가 오지는 않지만, SW로 멈추는 처리를 해둔 것을 S/W 인터럽트라고 말한다.
+
+이 또한 ISR종료 후 다시 User Program으로 돌아간다.
+
+## 인터럽트 기반 운영체제란?
+
+평소에는 OS가 대기상태로 있다가
+
+-   HW인터럽트에 의해 ISR(OS내 Interrupt ServiceRoutine) 코드가 실행
+-   SW인터럽트에 의해 ISR 코드 실행
+-   내부인터럽트에 의해 ISR실행  
+     ex. 5/0 = infinite.. 이 값을 저장할 수 없다. 그래서 이 때 실행이 불가능함. 이러한 사건이 일어나면 내부적으로 인터럽트가 일어났다고 판단하여 OS내에있는 `divide by 0` 코드를 실행시켜 -> 프로그램 종료(등의 exception 처리)시킨다.
+
+ISR가 종료되면 원래의 대기상태 또는 User Program으로 복귀한다.
+
+이처럼 우리가 사용하는 OS는 모두 인터럽트 기반 운영체제이다. User Program과 OS 내의 코드(ISR)가 반복 번갈아가며 memory에서 실행된다.

@@ -16,3 +16,4 @@ Computer Science를 공부하기 위한 레포.
 
 -   [동적 메모리](https://github.com/pongsoyun/CS/blob/master/DEVInterview/%EB%8F%99%EC%A0%81%EB%A9%94%EB%AA%A8%EB%A6%AC.md)
 -   [Big O 분석법, 메모리 분석](https://github.com/pongsoyun/CS/blob/master/DEVInterview/BigO.md)
+-   [링크드 리스트](https://github.com/pongsoyun/CS/blob/master/DEVInterview/LinkedList.md)
