@@ -11,6 +11,7 @@ Computer Science를 공부하기 위한 레포.
 
 -   [운영체제 서론](https://github.com/pongsoyun/CS/blob/master/OS/2%2B3.md)
 -   [프로세스 관리, CPU 스케쥴링 알고리즘](https://github.com/pongsoyun/CS/blob/master/OS/4.md)
+-   [프로세스 동기화](https://github.com/pongsoyun/CS/blob/master/OS/5.md)
 
 ## DevInterview
 
